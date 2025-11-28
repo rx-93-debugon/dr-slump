@@ -1,0 +1,40 @@
+name: Run Tests
+
+on:
+  # mainブランチへのプッシュ時に実行
+  push:
+    branches:
+      - main
+  # 任意のブランチからmainへのプルリクエスト時に実行
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    # 実行環境を指定
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. コードをチェックアウト
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Python環境をセットアップ
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x" # 使用するPythonのバージョンを指定 (例: '3.12')
+
+      # 3. 依存関係をインストール
+      - name: Install dependencies
+        # 依存関係ファイルがある場合（requirements.txtなど）
+        # uv pip install -r requirements.txt
+        run: |
+          pip install pytest
+
+      # 4. テストを実行
+      - name: Run pytest
+        # --import-mode=importlib を追加することで、src/ パッケージのインポート問題を回避しやすくなります。
+        run: |
+          pytest --import-mode=importlib
