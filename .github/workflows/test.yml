@@ -37,4 +37,4 @@ jobs:
       - name: Run pytest
         # --import-mode=importlib を追加することで、src/ パッケージのインポート問題を回避しやすくなります。
         run: |
-          pytest --import-mode=importlib
+          pytest
